@@ -5,7 +5,7 @@ class FrankIO {
 	
 	public static function execute($input) {
 		# Initialize
-		self::init();
+		$init = self::init();
 		
 		self::log_input($input);
 		
@@ -45,6 +45,7 @@ class FrankIO {
 				}
 		    }
 		}
+		return true;
 	}
 	
 	/**
