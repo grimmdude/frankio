@@ -1,7 +1,7 @@
 <?php
 class FrankIO {
-	public static $modules = array();
 	public static $db;
+	public static $modules = array();
 	
 	public static function execute($input) {
 		# Initialize
@@ -19,6 +19,7 @@ class FrankIO {
 				return array('output' => $module::$command($input));
 			}
 		}
+		
 		return array('output' => 'No command was found matching '.$input);
 	}
 	

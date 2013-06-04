@@ -12,7 +12,12 @@ class activity_logger extends FrankIO {
 			# List all activities
 			if (count($command) == 1) {
 				$sth = parent::$db->prepare("SELECT DISTINCT `activity_name` FROM `activities` WHERE 1");
-				$sth->execute();
+				try {
+					$sth->execute();
+				} catch (Exception $e) {
+					return $e;
+				}
+				
 				while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
 					$output[] = $row['activity_name'];
 				}
