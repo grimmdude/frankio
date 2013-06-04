@@ -51,8 +51,8 @@ class FrankIO {
 	 * Logs input
 	 */
 	static private function log_input($input) {
-		$query = "INSERT INTO `input_log` (`input`,`ip`,`date_added`) VALUES('".mysql_real_escape_string($input)."','".$_SERVER['REMOTE_ADDR']."',NOW())";
-		if (self::$db->query($query)) {
+		$sth = self::$db->prepare("INSERT INTO `input_log` (`input`,`ip`,`date_added`) VALUES(?, ?, NOW())");
+		if ($sth->execute(array($input, $_SERVER['REMOTE_ADDR']))) {
 			return true;
 		}
 		return false;
