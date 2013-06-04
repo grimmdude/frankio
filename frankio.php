@@ -1,5 +1,10 @@
 <?php
 class FrankIO {
+	private static $dbhost = 'localhost';
+	private static $dbname = 'frankio';
+	private static $dbuser = 'root';
+	private static $dbpass = 'root';
+	
 	public static $db;
 	public static $modules = array();
 	
@@ -26,7 +31,7 @@ class FrankIO {
 	private static function init() {	
 		# Grab DB
 		try {
-			self::$db = new PDO("mysql:host=localhost;dbname=frankio", 'root', 'root');
+			self::$db = new PDO("mysql:host=".self::$dbhost.";dbname=".self::$dbname, self::$dbuser, self::$dbpass);
 		} catch (Exception $e) {
 			echo $e->getMessage();
 		}
