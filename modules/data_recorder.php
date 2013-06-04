@@ -8,25 +8,25 @@ class data_recorder extends FrankIO
 		# Parse command
 		$command = explode(' ', $input);
 		if (count($command) == 1) {
-			$query = "SELECT DISTINCT `data_name` FROM `data` WHERE 1";
-			$result = parent::$db->query($query);
-			while ($row = mysql_fetch_assoc($result)) {
+			$sth = parent::$db->prepare("SELECT DISTINCT `data_name` FROM `data` WHERE 1");
+			$sth->execute();
+			while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
 				$output[] = $row['data_name'];
 			}
 			return $output;
 		}
 		elseif (count($command) == 2) {
-			$query = "SELECT * FROM `data` WHERE `data_name` = '".mysql_real_escape_string($command[1])."'";
-			$result = parent::$db->query($query);
+			$sth = parent::$db->prepare("SELECT * FROM `data` WHERE `data_name` = ?");
+			$sth->execute(array($command[1]));
 			$output = array();
-			while ($row = mysql_fetch_assoc($result)) {
+			while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
 				$output[] = $row;
 			}
 			return $output;
 		}
 		elseif (count($command) == 3) {
-			$query = "INSERT INTO `data` (`data_name`, `data_value`, `data_date`) VALUES('".$command[1]."', '".$command[2]."', NOW())";
-			parent::$db->query($query);
+			$sth = parent::$db->prepare("INSERT INTO `data` (`data_name`, `data_value`, `data_date`) VALUES(?, ?, NOW())");
+			$sth->execute(array($command[1], $command[2]));
 			return 'Recorded';
 		}
 	}	

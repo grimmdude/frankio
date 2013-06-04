@@ -11,9 +11,9 @@ class activity_logger extends FrankIO {
 		if (count($command) <= 3) {
 			# List all activities
 			if (count($command) == 1) {
-				$query = "SELECT DISTINCT `activity_name` FROM `activities` WHERE 1";
-				$result = parent::$db->query($query);
-				while ($row = mysql_fetch_assoc($result)) {
+				$sth = parent::$db->prepare("SELECT DISTINCT `activity_name` FROM `activities` WHERE 1");
+				$sth->execute();
+				while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
 					$output[] = $row['activity_name'];
 				}
 				return $output;
@@ -28,8 +28,8 @@ class activity_logger extends FrankIO {
 				# Start activity
 				if ($command[2] == strtolower('start')) {
 					if ($activity_open === false) {
-						$query = "INSERT INTO `activities` SET `activity_name` = '".mysql_real_escape_string($command[1])."', `activity_start` = NOW()";
-						parent::$db->query($query);
+						$sth = parent::$db->prepare("INSERT INTO `activities` (`activity_name`, `activity_start`) VALUES(?, NOW())");
+						$sth->execute(array($command[1]));
 						return $command[1]. ' started.';
 					}
 					else {
@@ -39,8 +39,8 @@ class activity_logger extends FrankIO {
 				# Stop activity
 				elseif ($command[2] == strtolower('stop')) {
 					if (is_numeric($activity_open)) {
-						$query = "UPDATE `activities` SET `activity_stop` = NOW() WHERE `activity_id` = ".$activity_open;
-						parent::$db->query($query);
+						$sth = parent::$db->prepare("UPDATE `activities` SET `activity_stop` = NOW() WHERE `activity_id` = ?");
+						$sth->execute(array($activity_open));
 						return $command[1]. ' stopped.';
 					}
 					else {
@@ -58,13 +58,14 @@ class activity_logger extends FrankIO {
 	}
 	
 	private static function _open_activity($activity_name) {
-		$query = "SELECT MAX(`activity_id`) as 'activity_id' FROM `activities` WHERE `activity_name` = '".mysql_real_escape_string($activity_name)."' AND `activity_stop` = 0";
-		$result = parent::$db->query($query);
-		if ($row = mysql_fetch_assoc($result)) {
+		$sth = parent::$db->prepare("SELECT MAX(`activity_id`) as 'activity_id' FROM `activities` WHERE `activity_name` = ? AND `activity_stop` = 0");
+		$sth->execute(array($activity_name));
+		if ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
 			if (empty($row['activity_id'])) {
 				return false;
 			}
 			return $row['activity_id'];
 		}
+		return false;
 	}
 }

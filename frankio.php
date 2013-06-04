@@ -1,6 +1,4 @@
 <?php
-require_once('incl/db.class.php');
-
 class FrankIO {
 	public static $modules = array();
 	public static $db;
@@ -26,8 +24,12 @@ class FrankIO {
 	
 	private static function init() {	
 		# Grab DB
-		self::$db = new DB;
-			
+		try {
+			self::$db = new PDO("mysql:host=localhost;dbname=frankio", 'root', 'root');
+		} catch (Exception $e) {
+			echo $e->getMessage();
+		}
+
 		# Auto load modules when called
 		spl_autoload_register(function ($module_name) {
 			require_once 'modules/' . $module_name . '.php';
