@@ -4,6 +4,8 @@
 */
 class activity_logger extends FrankIO {	
 	public static function activity($input) {
+		self::_init();
+		
 		# Parse command
 		$command = explode(' ', $input);
 		
@@ -18,10 +20,14 @@ class activity_logger extends FrankIO {
 					return $e;
 				}
 				
+				$output = array();
 				while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
 					$output[] = $row['activity_name'];
 				}
-				return $output;
+				if (!empty($output)) {
+					return $output;
+				}
+				return 'No activities found.';
 			}
 			elseif (count($command) == 2) {
 				# pull last ten records of this activity
@@ -72,5 +78,16 @@ class activity_logger extends FrankIO {
 			return $row['activity_id'];
 		}
 		return false;
+	}
+	
+	private static function	_init() {
+		$sth = parent::$db->prepare("CREATE TABLE IF NOT EXISTS `activities` (
+		  `activity_id` int(11) NOT NULL AUTO_INCREMENT,
+		  `activity_name` varchar(50) NOT NULL,
+		  `activity_start` datetime NOT NULL,
+		  `activity_stop` datetime NOT NULL,
+		  PRIMARY KEY (`activity_id`)
+		) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;");
+		$sth->execute();
 	}
 }

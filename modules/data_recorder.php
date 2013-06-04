@@ -5,6 +5,8 @@
 class data_recorder extends FrankIO
 {
 	public static function record($input) {
+		self::_init();
+		
 		# Parse command
 		$command = explode(' ', $input);
 		if (count($command) == 1) {
@@ -29,5 +31,16 @@ class data_recorder extends FrankIO
 			$sth->execute(array($command[1], $command[2]));
 			return 'Recorded';
 		}
+	}
+	
+	private static function _init() {
+		$sth = parent::$db->prepare("CREATE TABLE IF NOT EXISTS `data` (
+		  `data_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+		  `data_name` varchar(50) NOT NULL,
+		  `data_value` varchar(50) NOT NULL,
+		  `data_date` datetime NOT NULL,
+		  PRIMARY KEY (`data_id`)
+		) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;");
+		$sth->execute();
 	}	
 }
