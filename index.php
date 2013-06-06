@@ -29,22 +29,10 @@ else
 				<input type="text" name="input" id="input" style="width:425px;" disabled="disabled" />
 				<input type="hidden" name="salt" value="<?php echo $_SESSION['salt']; ?>" id="salt" />
 				<p class="lead" id="response"></p>
-				<p id="options"></p>
-				<?php /*
-				<p>Try teaching me something by typing this:</p>
-				<blockquote>
-					When I say 'I'm cool' you say 'I know!'
-				</blockquote>
-				<p>Look up something in Wikipedia like this:</p>
-				<blockquote>
-					wiki San Clemente
-				</blockquote>
-				*/ ?>	
 			</div>
 		</div>
 		<script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
 		<script type="text/javascript" src="js/all.js"></script>
-		<script type="text/javascript" src="js/bootstrap.min.js"></script>
 		<?php if (!strstr($_SERVER['SERVER_NAME'], 'local')): ?>
 			<!--Analytics-->
 			<script type="text/javascript">

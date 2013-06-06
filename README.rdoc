@@ -1,0 +1,16 @@
+= Frank IO
+Frank IO is a sort of online command based personal data logger.  It's expandable with different 'modules', each of which can multiple commands.
+
+It's still in it's early stages, but soon will be able to output reports on recorded data and possibly setup reminders.
+
+== Modules
+
+=== Activity Logger
+Start activities by typing: activity gym start
+Stop activities by typing: activity gym stop
+
+Where 'gym' can be any activity you like.
+
+To view a list of all logged activities just leave out the start or stop command: activity gym
+
+=== Data Recorder
