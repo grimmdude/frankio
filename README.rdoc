@@ -11,6 +11,6 @@ Stop activities by typing: activity gym stop
 
 Where 'gym' can be any activity you like.
 
-To view a list of all logged activities just leave out the start or stop command: activity gym
+To view a list of all logged activities just type: activity
 
 === Data Recorder
