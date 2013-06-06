@@ -3,7 +3,7 @@
 * Module to start/stop general activities
 */
 class activity_logger extends FrankIO {	
-	public static function activity($input) {
+	protected static function activity($input) {
 		self::_init();
 		
 		# Parse command
@@ -13,7 +13,7 @@ class activity_logger extends FrankIO {
 		if (count($command) <= 3) {
 			# List all activities
 			if (count($command) == 1) {
-				$sth = parent::$db->prepare("SELECT DISTINCT `activity_name` FROM `activities` WHERE 1");
+				$sth = self::$db->prepare("SELECT DISTINCT `activity_name` FROM `activities` WHERE 1");
 				try {
 					$sth->execute();
 				} catch (Exception $e) {
@@ -39,7 +39,7 @@ class activity_logger extends FrankIO {
 				# Start activity
 				if ($command[2] == strtolower('start')) {
 					if ($activity_open === false) {
-						$sth = parent::$db->prepare("INSERT INTO `activities` (`activity_name`, `activity_start`) VALUES(?, NOW())");
+						$sth = self::$db->prepare("INSERT INTO `activities` (`activity_name`, `activity_start`) VALUES(?, NOW())");
 						$sth->execute(array($command[1]));
 						return $command[1]. ' started.';
 					}
@@ -50,7 +50,7 @@ class activity_logger extends FrankIO {
 				# Stop activity
 				elseif ($command[2] == strtolower('stop')) {
 					if (is_numeric($activity_open)) {
-						$sth = parent::$db->prepare("UPDATE `activities` SET `activity_stop` = NOW() WHERE `activity_id` = ?");
+						$sth = self::$db->prepare("UPDATE `activities` SET `activity_stop` = NOW() WHERE `activity_id` = ?");
 						$sth->execute(array($activity_open));
 						return $command[1]. ' stopped.';
 					}
@@ -69,7 +69,7 @@ class activity_logger extends FrankIO {
 	}
 	
 	private static function _open_activity($activity_name) {
-		$sth = parent::$db->prepare("SELECT MAX(`activity_id`) as 'activity_id' FROM `activities` WHERE `activity_name` = ? AND `activity_stop` = 0");
+		$sth = self::$db->prepare("SELECT MAX(`activity_id`) as 'activity_id' FROM `activities` WHERE `activity_name` = ? AND `activity_stop` = 0");
 		$sth->execute(array($activity_name));
 		if ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
 			if (empty($row['activity_id'])) {
@@ -81,7 +81,7 @@ class activity_logger extends FrankIO {
 	}
 	
 	private static function	_init() {
-		$sth = parent::$db->prepare("CREATE TABLE IF NOT EXISTS `activities` (
+		$sth = self::$db->prepare("CREATE TABLE IF NOT EXISTS `activities` (
 		  `activity_id` int(11) NOT NULL AUTO_INCREMENT,
 		  `activity_name` varchar(50) NOT NULL,
 		  `activity_start` datetime NOT NULL,

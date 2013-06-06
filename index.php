@@ -6,10 +6,15 @@ if (!isset($_SESSION['salt']))
 	$_SESSION['salt'] = sha1(uniqid());
 }
 
-if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'true' && $_REQUEST['salt'] == $_SESSION['salt']) {
-	require_once 'frankio.php';
-	echo json_encode(FrankIO::execute(($_REQUEST['input'])));
-	die;
+if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'true') {
+	if ($_REQUEST['salt'] == $_SESSION['salt']) {
+		require_once 'frankio.php';
+		echo json_encode(FrankIO::execute(($_REQUEST['input'])));
+		exit;
+	}
+	else {
+		echo 'No bots allowed please.';
+	}
 }
 else 
 {
