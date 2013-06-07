@@ -55,28 +55,8 @@ $(function() {
 						salt: jQuery('#salt').val()
 						},
 				  		success: function(data) {
-							console.log(data);
-							if ($.isArray(data.output)) {
-								// If this is an object then display in a table.
-								if ($.isPlainObject(data.output[0])) {
-									for (var i=0; i < data.output.length; i++) {
-										for (key in data.output[i]) {
-											console.log(data.output[i][key]);
-										}
-									}
-								}
-								// If this is an array display in a list.
-								else {
-									$('#response').html('<ul></ul>');
-									for (var i = 0; i < data.output.length; i++) {
-										$('#response ul').append('<li>' + data.output[i] + '</li>');
-									}	
-								}
-							}
-							else {
-								$('#response').html(data.output);	
-							}
-						
+							$('#response').html(data.output);	
+
 							// Show options if available
 							if (data.options) {
 								$('#options').empty();

@@ -20,11 +20,15 @@ class activity_logger extends FrankIO {
 					return $e;
 				}
 				
-				$output = array();
-				while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
-					$output[] = $row['activity_name'];
+				if ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
+					$output = '<ul>';
+					while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
+						$output .= '<li>'.$row['activity_name'].'</li>';
+					}
+					$output .= '</ul>';
 				}
-				if (!empty($output)) {
+
+				if (isset($output)) {
 					return $output;
 				}
 				return 'No activities found.';
@@ -44,7 +48,7 @@ class activity_logger extends FrankIO {
 						return $command[1]. ' started.';
 					}
 					else {
-						return 'Activity already open.';
+						return '<p>Activity already open.</p>';
 					}
 				}
 				# Stop activity
@@ -55,11 +59,11 @@ class activity_logger extends FrankIO {
 						return $command[1]. ' stopped.';
 					}
 					else {
-						return 'No open '.$command[1].' activity found.';
+						return '<p>No open '.$command[1].' activity found.</p>';
 					}
 				}
 				else {
-					return 'Third argument should be "start" or "stop".';
+					return '<p>Third argument should be "start" or "stop".</p>';
 				}
 			}
 		}

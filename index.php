@@ -33,7 +33,7 @@ else
 				<h1>Frank IO</h1>
 				<input type="text" name="input" id="input" style="width:425px;" disabled="disabled" />
 				<input type="hidden" name="salt" value="<?php echo $_SESSION['salt']; ?>" id="salt" />
-				<p class="lead" id="response"></p>
+				<div class="lead" id="response"></div>
 			</div>
 		</div>
 		<script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>

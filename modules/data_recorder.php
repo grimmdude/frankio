@@ -12,18 +12,22 @@ class data_recorder extends FrankIO
 		if (count($command) == 1) {
 			$sth = self::$db->prepare("SELECT DISTINCT `data_name` FROM `data` WHERE 1");
 			$sth->execute();
+			$output = '<ul>';
 			while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
-				$output[] = $row['data_name'];
+				$output .= '<li>'.$row['data_name'].'</li>';
 			}
+			$output .= '</ul>';
 			return $output;
 		}
 		elseif (count($command) == 2) {
-			$sth = self::$db->prepare("SELECT * FROM `data` WHERE `data_name` = ?");
+			$sth = self::$db->prepare("SELECT * FROM `data` WHERE `data_name` = ? ORDER BY `data_date` ASC LIMIT 10");
 			$sth->execute(array($command[1]));
-			$output = array();
+			$output = '<table class="table">';
+			$output .= '<tr><th>Value</th><th>Date</th></tr>';
 			while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
-				$output[] = $row;
+				$output .= '<tr><td>'.$row['data_value'].'</td><td>'.$row['data_date'].'</td></tr>';
 			}
+			$output .= '</table>';
 			return $output;
 		}
 		elseif (count($command) == 3) {
