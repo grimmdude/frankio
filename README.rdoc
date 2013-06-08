@@ -33,3 +33,8 @@ To view a list of all recorded data keys type:
 
 == Writing Modules
 Modules can be added by adding a file in the modules folder which defines a class which is named the same as the file.  Any method in that class not prefixed with "_" defines a command by the same name.
+
+==Install
+Create MySQL database.
+Add credentials to top of frankio.php
+Use
