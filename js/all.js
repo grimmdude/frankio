@@ -75,6 +75,7 @@ $(function() {
 
 							user_input.push(data.input);
 							user_input_pointer = user_input.length - 1;
+							$('#command_history').append('<p>'+user_input[user_input.length - 1]+'</p>');
 					  	},
 						error: function(e) {
 							$('#response').text("Couldn't talk to Frank IO.");

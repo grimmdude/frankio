@@ -25,6 +25,7 @@ else
 		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 		<title>FrankIO</title>
 		<link rel="stylesheet" href="css/bootstrap.min.css" media="all" />
+		<link rel="stylesheet" href="css/all.css" media="all" />
 	</head>
 	<body>
 		<div class="container-fluid">
@@ -33,6 +34,8 @@ else
 				<input type="text" name="input" id="input" style="width:425px;" disabled="disabled" />
 				<input type="hidden" name="salt" value="<?php echo $_SESSION['salt']; ?>" id="salt" />
 				<div class="lead" id="response"></div>
+				<h2>Command History</h2>
+				<div id="command_history"></div>
 			</div>
 		</div>
 		<script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>

@@ -4,10 +4,11 @@
 */
 class activity_logger extends FrankIO {	
 	protected static $module_name = 'Activity Logger';
-	
+	//protected static $module_commands = get_class_methods('sa');
+
 	protected static function activity($input) {
 		self::_init();
-		
+	
 		# Parse command
 		$command = explode(' ', $input);
 		
