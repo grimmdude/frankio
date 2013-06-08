@@ -11,7 +11,9 @@ $(function() {
 			if (e.keyCode == 38) {
 				if (user_input_pointer > 0) {
 					user_input_pointer--;
-					$(this).val(user_input[user_input_pointer]);
+					$(this)
+						.val(user_input[user_input_pointer])
+						.trigger('change');
 				}
 				//console.log(user_input_pointer);
 				return false;
@@ -20,7 +22,9 @@ $(function() {
 			if (e.keyCode == 40) {
 				if (user_input_pointer <= user_input.length-1 && user_input_pointer >= 0) {
 					user_input_pointer++;
-					$(this).val(user_input[user_input_pointer]);
+					$(this)
+						.val(user_input[user_input_pointer])
+						.trigger('change');
 				}
 				//console.log(user_input_pointer);
 				return false;

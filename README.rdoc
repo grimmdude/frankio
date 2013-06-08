@@ -36,5 +36,7 @@ Modules can be added by adding a file in the modules folder which defines a clas
 
 ==Install
 Create MySQL database.
-Add credentials to top of frankio.php
+
+Add credentials to top of config.php
+
 Use

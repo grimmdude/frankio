@@ -1,10 +1,7 @@
 <?php
-class FrankIO {
-	private static $dbhost = 'localhost';
-	private static $dbname = 'frankio';
-	private static $dbuser = 'root';
-	private static $dbpass = 'root';
-	
+require_once 'config.php';
+
+class FrankIO {	
 	private static $modules = array();
 	protected static $error = false;
 	protected static $db;
@@ -34,7 +31,7 @@ class FrankIO {
 					}
 				}
 			}
-			return array('input' => $input, 'output' => 'No command was found matching '.$input);
+			return array('input' => $input, 'output' => 'No command was found matching '.$command);
 		}
 		else {
 			return array('input' => $input, 'output' => 'Error: '.self::$error);
@@ -48,7 +45,7 @@ class FrankIO {
 	private static function init() {	
 		# Grab DB
 		try {
-			self::$db = new PDO("mysql:host=".self::$dbhost.";dbname=".self::$dbname, self::$dbuser, self::$dbpass);
+			self::$db = new PDO("mysql:host=".Config::$dbhost.";dbname=".Config::$dbname, Config::$dbuser, Config::$dbpass);
 		} catch (Exception $e) {
 			self::handle_error($e->getMessage());
 			return false;
