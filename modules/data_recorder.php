@@ -4,6 +4,8 @@
 */
 class data_recorder extends FrankIO
 {
+	protected static $module_name = 'Data Recorder';
+
 	protected static function record($input) {
 		self::_init();
 		
@@ -33,10 +35,14 @@ class data_recorder extends FrankIO
 		elseif (count($command) == 3) {
 			$sth = self::$db->prepare("INSERT INTO `data` (`data_name`, `data_value`, `data_date`) VALUES(?, ?, NOW())");
 			$sth->execute(array($command[1], $command[2]));
-			return 'Recorded';
+			return $command[1].' recorded as '.$command[2];
 		}
 	}
 	
+	protected static function _help() {
+		return '<p>Help for data logger</p>';
+	}
+
 	private static function _init() {
 		$sth = self::$db->prepare("CREATE TABLE IF NOT EXISTS `data` (
 		  `data_id` int(11) unsigned NOT NULL AUTO_INCREMENT,

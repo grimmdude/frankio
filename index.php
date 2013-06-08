@@ -13,7 +13,7 @@ if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'true') {
 		exit;
 	}
 	else {
-		echo 'No bots allowed please.';
+		echo 'No bots please.';
 	}
 }
 else 
@@ -25,7 +25,6 @@ else
 		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 		<title>FrankIO</title>
 		<link rel="stylesheet" href="css/bootstrap.min.css" media="all" />
-		<link rel="stylesheet" href="css/bootstrap-responsive.min.css" media="all" />
 	</head>
 	<body>
 		<div class="container-fluid">

@@ -22,17 +22,22 @@ class FrankIO {
 			# Grab command
 			$command = explode(' ', $input);
 			$command = $command[0];
-
-			# Check if any modules recognize this command
-			foreach (self::$modules as $module) {
-				if (method_exists($module, $command)) {
-					return array('output' => $module::$command($input));
+			
+			if ($command == 'help') {
+				return array('input' => $input, 'output' => self::help());	
+			}
+			else {
+				# Check if any modules recognize this command
+				foreach (self::$modules as $module) {
+					if (method_exists($module, $command)) {
+						return array('input' => $input, 'output' => $module::$command($input));
+					}
 				}
 			}
-			return array('output' => 'No command was found matching '.$input);
+			return array('input' => $input, 'output' => 'No command was found matching '.$input);
 		}
 		else {
-			return array('output' => 'Error: '.self::$error);
+			return array('input' => $input, 'output' => 'Error: '.self::$error);
 		}
 	}
 	
@@ -78,5 +83,23 @@ class FrankIO {
 	
 	private static function handle_error($error_message) {
 		self::$error = $error_message;
+	}
+
+	private static function help() {
+		$help_html = '';
+		foreach (self::$modules as $module) {
+			$help_html .= '<h2>'.$module::$module_name.'</h2>';
+			$help_html .= $module::_help();
+			$help_html .= '<h3>Commands</h3>';
+			$help_html .= '<ul>';
+			$class_methods = get_class_methods($module);
+			foreach ($class_methods as $method) {
+				if (substr($method, 0, 1) != '_') {
+					$help_html .= '<li>'.$method.'</li>';
+				}
+			}
+			$help_html .= '</ul>';
+		}
+		return $help_html;
 	}
 }

@@ -3,6 +3,8 @@
 * Module to start/stop general activities
 */
 class activity_logger extends FrankIO {	
+	protected static $module_name = 'Activity Logger';
+	
 	protected static function activity($input) {
 		self::_init();
 		
@@ -101,5 +103,9 @@ class activity_logger extends FrankIO {
 		  PRIMARY KEY (`activity_id`)
 		) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;");
 		$sth->execute();
+	}
+
+	protected static function _help() {
+		return '<p>This is help for activity logger</p>';
 	}
 }

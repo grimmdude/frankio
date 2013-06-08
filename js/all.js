@@ -69,7 +69,7 @@ $(function() {
 								});
 							}
 
-							user_input.push(data.question);
+							user_input.push(data.input);
 							user_input_pointer = user_input.length - 1;
 					  	},
 						error: function(e) {
