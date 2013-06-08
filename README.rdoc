@@ -7,24 +7,24 @@ It's still in it's early stages, but soon will be able to output reports on reco
 
 === Activity Logger
 Start activities by typing:
-	activity gym start
+    activity gym start
 
 Stop activities by typing:
-	activity gym stop
+    activity gym stop
 
 Where 'gym' can be any activity you like.
 
 To view a list of all logged activities just type:
-	activity
+    activity
 
 === Data Recorder
 The data recorder module provides the record command which you can use to save any type of data you like.
 
 To record some data type:
-	record weight 172
+    record weight 172
 
 To view a report of a particular type of data type:
-	record weight
+    record weight
 	
 Where weight is whatever data key you like.
 
