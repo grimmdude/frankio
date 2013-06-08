@@ -13,12 +13,8 @@ class activity_logger extends FrankIO {
 		if (count($command) <= 3) {
 			# List all activities
 			if (count($command) == 1) {
-				$sth = self::$db->prepare("SELECT DISTINCT `activity_name` FROM `activities` WHERE 1");
-				try {
-					$sth->execute();
-				} catch (Exception $e) {
-					return $e;
-				}
+				$sth = self::$db->prepare("SELECT DISTINCT `activity_name` FROM `activities` WHERE 1");	
+				$sth->execute();
 				
 				if ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
 					$output = '<ul>';
@@ -35,7 +31,19 @@ class activity_logger extends FrankIO {
 			}
 			elseif (count($command) == 2) {
 				# pull last ten records of this activity
+				$sth = self::$db->prepare("SELECT * FROM `activities` WHERE `activity_name` = ?`");
+				$sth->execute(array($command[1]));
+				$output = '<table class="table">';
+				$output .= '<tr><th>Activity</th><th>Start</th><th>Stop</th></tr>';
+				while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
+					$output .= '<tr><td>'.$row['activity_name'].'</td>';
+					$output .= '<td>'.$row['activity_start'].'</td>';
+					$output .= '<td>'.$row['activity_stop'].'</td></tr>';
+				}
+				$output .= '</table>';
+				return $output;
 			}
+
 			else {
 				# Check if this activity has any open records
 				$activity_open = self::_open_activity($command[1]);

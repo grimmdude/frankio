@@ -1,5 +1,5 @@
 = Frank IO
-Frank IO is an online command based personal data logger.  It's expandable with different 'modules', each of which can multiple commands.
+Frank IO is an online command based personal data logger.  It's expandable with different 'modules', each of which can define multiple commands.
 
 It's still in it's early stages, but soon will be able to output reports on recorded data and possibly setup reminders.
 
@@ -30,3 +30,6 @@ Where weight is whatever data key you like.
 
 To view a list of all recorded data keys type:
     record
+
+== Writing Modules
+Modules can be added by adding a file in the modules folder which defines a class which is named the same as the file.  Any method in that class not prefixed with "_" defines a command by the same name.
