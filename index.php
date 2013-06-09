@@ -34,6 +34,42 @@ else
 				<div id="response"></div>
 				<h2>Command History</h2>
 				<div id="command_history"></div>
+				<p>Frank IO is an online command based personal data logger. It’s expandable with different ‘modules’, each of which can define multiple commands.</p>
+
+				<p>It’s still in it’s early stages, but soon will be able to output reports on recorded data and possibly setup reminders.</p>
+
+				<h3>Commands</h3>
+
+				<h4>Activity Logger</h4>
+
+				<p>Start activities by typing:</p>
+
+				<pre>activity gym start</pre>
+				<p>Stop activities by typing:</p>
+
+				<pre>activity gym stop</pre>
+				<p>Where ‘gym’ can be any activity you like.</p>
+
+				<p>To view a list of all logged activities just type:</p>
+
+				<pre>activity</pre>
+				<h4>Data Recorder</h4>
+
+				<p>The data recorder module provides the record command which you can use to save any type of data you like.</p>
+
+				<p>To record some data type:</p>
+
+				<pre>record weight 172</pre>
+				<p>To view a report of a particular type of data type:</p>
+
+				<pre>record weight</pre>
+				<p>Where weight is whatever data key you like.</p>
+
+				<p>To view a list of all recorded data keys type:</p>
+
+				<pre>record</pre>
+				
+				<p><a href="https://github.com/grimmdude/frankio">GitHub Repo</a></p>
 			</div>
 		</div>
 		<script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
