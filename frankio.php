@@ -87,15 +87,15 @@ class FrankIO {
 		foreach (self::$modules as $module) {
 			$help_html .= '<h2>'.$module::$module_name.'</h2>';
 			$help_html .= $module::_help();
-			$help_html .= '<h3>Commands</h3>';
-			$help_html .= '<ul>';
-			$class_methods = get_class_methods($module);
-			foreach ($class_methods as $method) {
-				if (substr($method, 0, 1) != '_') {
-					$help_html .= '<li>'.$method.'</li>';
+			
+			if (property_exists($module, 'module_commands')) {
+				$help_html .= '<h3>Commands</h3>';
+				$help_html .= '<ul>';
+				foreach ($module::$module_commands as $command) {
+					$help_html .= '<li>'.$command.'</li>';
 				}
-			}
-			$help_html .= '</ul>';
+				$help_html .= '</ul>';
+			}			
 		}
 		return $help_html;
 	}

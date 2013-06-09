@@ -1,8 +1,6 @@
 <?php
 session_start();
-
-if (!isset($_SESSION['salt'])) 
-{
+if (!isset($_SESSION['salt'])) {
 	$_SESSION['salt'] = sha1(uniqid());
 }
 
@@ -31,9 +29,9 @@ else
 		<div class="container-fluid">
 			<div style="width:700px;margin:auto;">
 				<h1>Frank IO</h1>
-				<input type="text" name="input" id="input" style="width:425px;" disabled="disabled" />
+				<input type="text" name="input" id="input" style="width:98%;" disabled="disabled" />
 				<input type="hidden" name="salt" value="<?php echo $_SESSION['salt']; ?>" id="salt" />
-				<div class="lead" id="response"></div>
+				<div id="response"></div>
 				<h2>Command History</h2>
 				<div id="command_history"></div>
 			</div>

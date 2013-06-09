@@ -4,7 +4,6 @@
 */
 class activity_logger extends FrankIO {	
 	protected static $module_name = 'Activity Logger';
-	//protected static $module_commands = get_class_methods('sa');
 
 	protected static function activity($input) {
 		self::_init();
@@ -34,7 +33,7 @@ class activity_logger extends FrankIO {
 			}
 			elseif (count($command) == 2) {
 				# pull last ten records of this activity
-				$sth = self::$db->prepare("SELECT * FROM `activities` WHERE `activity_name` = ?`");
+				$sth = self::$db->prepare("SELECT * FROM `activities` WHERE `activity_name` = ?");
 				$sth->execute(array($command[1]));
 				$output = '<table class="table">';
 				$output .= '<tr><th>Activity</th><th>Start</th><th>Stop</th></tr>';
@@ -56,7 +55,7 @@ class activity_logger extends FrankIO {
 					if ($activity_open === false) {
 						$sth = self::$db->prepare("INSERT INTO `activities` (`activity_name`, `activity_start`) VALUES(?, NOW())");
 						$sth->execute(array($command[1]));
-						return $command[1]. ' started.';
+						return $command[1]. ' started at '.date('g:ia').'.';
 					}
 					else {
 						return '<p>Activity already open.</p>';
@@ -67,7 +66,7 @@ class activity_logger extends FrankIO {
 					if (is_numeric($activity_open)) {
 						$sth = self::$db->prepare("UPDATE `activities` SET `activity_stop` = NOW() WHERE `activity_id` = ?");
 						$sth->execute(array($activity_open));
-						return $command[1]. ' stopped.';
+						return $command[1]. ' stopped at '.date('g:ia').'.';
 					}
 					else {
 						return '<p>No open '.$command[1].' activity found.</p>';
@@ -83,6 +82,11 @@ class activity_logger extends FrankIO {
 		}
 	}
 	
+	/**
+	 * Checks if an activity is open
+	 * @param $activity_name
+	 * @return BOOL
+	 */
 	private static function _open_activity($activity_name) {
 		$sth = self::$db->prepare("SELECT MAX(`activity_id`) as 'activity_id' FROM `activities` WHERE `activity_name` = ? AND `activity_stop` = 0");
 		$sth->execute(array($activity_name));
