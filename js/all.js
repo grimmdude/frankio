@@ -3,6 +3,16 @@ $(function() {
 	var user_input = [];
 	var user_input_pointer;
 	
+	$('#show_help').click(function() {
+		$('#help').toggle(0, function(){
+			if ($(this).is(':visible')) {
+				$('#show_help').text('Hide Help');
+			}
+			else {
+				$('#show_help').text('Show Help');
+			}
+		});
+	});
 	// Enable input
 	$('input').prop('disabled',false)
 		// Use up/down keys to cycle through past questions
@@ -60,7 +70,8 @@ $(function() {
 						},
 				  		success: function(data) {
 							$('#response').html(data.output);	
-
+							
+							/*
 							// Show options if available
 							if (data.options) {
 								$('#options').empty();
@@ -72,6 +83,7 @@ $(function() {
 									$('#input').val(jQuery(this).find('span').text()).change();
 								});
 							}
+							*/
 
 							user_input.push(data.input);
 							user_input_pointer = user_input.length - 1;

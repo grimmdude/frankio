@@ -15,7 +15,7 @@ class activity_logger extends FrankIO {
 		if (count($command) <= 3) {
 			# List all activities
 			if (count($command) == 1) {
-				$sth = self::$db->prepare("SELECT DISTINCT `activity_name` FROM `activities` WHERE 1");	
+				$sth = self::$db->prepare("SELECT DISTINCT `activity_name` FROM `activities` WHERE 1 ORDER BY `activity_name`");	
 				$sth->execute();
 				
 				if ($row = $sth->fetch(PDO::FETCH_ASSOC)) {

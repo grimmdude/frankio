@@ -12,7 +12,7 @@ class data_recorder extends FrankIO
 		# Parse command
 		$command = explode(' ', $input);
 		if (count($command) == 1) {
-			$sth = self::$db->prepare("SELECT DISTINCT `data_name` FROM `data` WHERE 1");
+			$sth = self::$db->prepare("SELECT DISTINCT `data_name` FROM `data` WHERE 1 ORDER BY `data_name`");
 			$sth->execute();
 			$output = '<ul>';
 			while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
