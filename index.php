@@ -16,6 +16,11 @@ if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'true') {
 }
 else 
 {
+	# Check if everything is installed
+	if (!file_exists('config.php')) {
+		header('Location: install.php');
+		exit;
+	}
 	?>
 	<!DOCTYPE html>
 	<html lang="en">

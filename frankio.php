@@ -42,28 +42,35 @@ class FrankIO {
 	 * Function to initialize database and modules
 	 * @return BOOL
 	 */
-	private static function init() {	
-		# Grab DB
-		try {
-			self::$db = new PDO("mysql:host=".Config::$dbhost.";dbname=".Config::$dbname, Config::$dbuser, Config::$dbpass);
-		} catch (Exception $e) {
-			self::handle_error($e->getMessage());
+	private static function init() {
+		if (self::get_db()) {
+			# Auto load modules when called
+			spl_autoload_register(function ($module_name) {
+				require_once 'modules/' . $module_name . '.php';
+			});
+
+			# Init modules
+			if ($handle = opendir('modules')) {
+				while (false !== ($module = readdir($handle))) {
+					if (!in_array($module, array('.','..'))) {
+						$module = rtrim($module, '.php');
+						self::$modules[] = $module;
+					}
+			    }
+			}
+			return true;
+		}
+		else {
 			return false;
 		}
-
-		# Auto load modules when called
-		spl_autoload_register(function ($module_name) {
-			require_once 'modules/' . $module_name . '.php';
-		});
-		
-		# Init modules
-		if ($handle = opendir('modules')) {
-			while (false !== ($module = readdir($handle))) {
-				if (!in_array($module, array('.','..'))) {
-					$module = rtrim($module, '.php');
-					self::$modules[] = $module;
-				}
-		    }
+	}
+	
+	private static function get_db() {
+		try {
+		    self::$db = new PDO("mysql:host=".Config::$dbhost.";dbname=".Config::$dbname, Config::$dbuser, Config::$dbpass);
+		} catch (PDOException $e) {
+		   	//echo 'Connection failed: ' . $e->getMessage();
+			return false;
 		}
 		return true;
 	}
