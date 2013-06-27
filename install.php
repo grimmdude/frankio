@@ -1,5 +1,10 @@
-<?php if (count($_POST)): ?>
-	<?php 
+<?php
+if (file_exists('config.php')) {
+	header('Location: index.php');
+	exit;
+}
+
+if (count($_POST)) {
 	if ($fh = fopen('config.php', 'w')) {
 		// Write the config file
 		$config[] = '<?php';
@@ -20,8 +25,10 @@
 	else {
 		echo 'Cannot open config.php for writing.  Check permissions.';
 	}
+}
+else
+{
 	?>
-<?php else: ?>
 	<!DOCTYPE html>
 	<html lang="en">
 	<head>
@@ -68,4 +75,6 @@
 			</div>
 		</div>
 	</body>
-<?php endif; ?>
+	<?php
+}
+?>
