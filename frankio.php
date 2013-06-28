@@ -1,7 +1,9 @@
 <?php
-require_once 'config.php';
+if (file_exists('config.php')) {
+	require_once 'config.php';
+}
 
-class FrankIO {	
+class FrankIO {
 	private static $modules = array();
 	protected static $error = false;
 	protected static $db;
@@ -65,9 +67,23 @@ class FrankIO {
 		}
 	}
 	
-	private static function get_db() {
+	public static function get_db($dbcreds) {
+		if (is_array($dbcreds) && count($dbcreds) == 4) {
+			$dbhost = $dbcreds['dbhost'];
+			$dbname = $dbcreds['dbname'];
+			$dbuser = $dbcreds['dbuser'];
+			$dbpass = $dbcreds['dbpass'];
+		}
+		else {
+			$dbhost = Config::$dbhost;
+			$dbname = Config::$dbname;
+			$dbuser = Config::$dbuser;
+			$dbpass = Config::$dbpass;
+		}
+		
 		try {
-		    self::$db = new PDO("mysql:host=".Config::$dbhost.";dbname=".Config::$dbname, Config::$dbuser, Config::$dbpass);
+		    self::$db = new PDO("mysql:host=".$dbhost.";dbname=".$dbname, $dbuser, $dbpass);
+			self::$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		} catch (PDOException $e) {
 		   	//echo 'Connection failed: ' . $e->getMessage();
 			return false;
