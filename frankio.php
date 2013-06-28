@@ -67,7 +67,7 @@ class FrankIO {
 		}
 	}
 	
-	public static function get_db($dbcreds) {
+	public static function get_db($dbcreds = false) {
 		if (is_array($dbcreds) && count($dbcreds) == 4) {
 			$dbhost = $dbcreds['dbhost'];
 			$dbname = $dbcreds['dbname'];

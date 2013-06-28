@@ -47,6 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <!DOCTYPE html>
 <html lang="en">
 <head>
+	<link rel="shortcut icon" href="favicon.ico" />
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 	<title>FrankIO</title>
 	<link rel="stylesheet" href="css/bootstrap.min.css" media="all" />
