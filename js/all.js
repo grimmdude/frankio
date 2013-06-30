@@ -51,7 +51,7 @@ $(function() {
 		
 			// If this is a calculation input use JS
 			var calc_pattern = new RegExp("^([0-9\(\)\.]+[\-\/\+\*%]?)+[0-9\(\)\.]+$");
-			var number_pattern = new RegExp("^[0-9\(\)]+[\-\/\+\*]?$")
+			var number_pattern = new RegExp("^[0-9\(\)]+[\-\/\+\*]?$");
 			if (number_pattern.test(input)) {
 				$('#response').text('I can do calculations, try 4 + 4');
 			}
@@ -70,7 +70,15 @@ $(function() {
 						},
 				  		success: function(data) {
 							$('#response').html(data.response.output);	
-							
+							if (data.response.data) {
+								$('#export_link')
+									.show()
+									.find('a')
+										.attr('href', '?command=' + data.input + '&');
+							}
+							else {
+								$('#export_link').hide();
+							}
 							/*
 							// Show options if available
 							if (data.options) {

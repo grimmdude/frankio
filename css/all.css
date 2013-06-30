@@ -12,4 +12,5 @@
 
 body {background:#f9fbfc;color:#21272d;font-family:'CantarellRegular';}
 #response {margin-bottom:8px;}
+#export_link {display:none;}
 #command_history {height:200px;overflow:auto;border:1px solid #ddd;}

@@ -1,8 +1,4 @@
 <?php
-if (file_exists('config.php')) {
-	require_once 'config.php';
-}
-
 class FrankIO {
 	private static $modules = array();
 	protected static $error = false;
@@ -36,11 +32,15 @@ class FrankIO {
 					}
 				}
 			}
-			return array('input' => $input, 'output' => 'No command was found matching '.$command);
+			return array('input' => $input, 'response' => array('output' => 'No command was found matching '.$command));
 		}
 		else {
-			return array('input' => $input, 'output' => 'Error: '.self::$error);
+			return array('input' => $input, 'response' => array('output' => 'Error: '.self::$error));
 		}
+	}
+	
+	public static function export($input) {
+		
 	}
 	
 	/**
@@ -63,6 +63,15 @@ class FrankIO {
 					}
 			    }
 			}
+			
+			$sth = self::$db->prepare("CREATE TABLE IF NOT EXISTS `input_log` (
+			  `input_id` int(10) NOT NULL AUTO_INCREMENT,
+			  `input` varchar(200) CHARACTER SET latin1 NOT NULL,
+			  `ip` varchar(19) CHARACTER SET latin1 NOT NULL,
+			  `date_added` datetime NOT NULL,
+			  PRIMARY KEY (`input_id`)
+			) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;");
+			$sth->execute();
 			return true;
 		}
 		else {
@@ -70,6 +79,11 @@ class FrankIO {
 		}
 	}
 	
+	/**
+	 * Gets DB and assigns handle to self::$db
+	 * @param $dbcreds Array If exists will try to connect to db with given creds
+	 * @return BOOL
+	 */
 	public static function get_db($dbcreds = false) {
 		if (is_array($dbcreds) && count($dbcreds) == 4) {
 			$dbhost = $dbcreds['dbhost'];
@@ -77,11 +91,12 @@ class FrankIO {
 			$dbuser = $dbcreds['dbuser'];
 			$dbpass = $dbcreds['dbpass'];
 		}
-		else {
-			$dbhost = Config::$dbhost;
-			$dbname = Config::$dbname;
-			$dbuser = Config::$dbuser;
-			$dbpass = Config::$dbpass;
+		elseif (file_exists('config.php')) {
+				require_once 'config.php';
+				$dbhost = Config::$dbhost;
+				$dbname = Config::$dbname;
+				$dbuser = Config::$dbuser;
+				$dbpass = Config::$dbpass;
 		}
 		
 		try {

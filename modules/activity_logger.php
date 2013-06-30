@@ -45,7 +45,7 @@ class activity_logger extends FrankIO {
 					$output .= '<td>'.$row['activity_stop'].'</td></tr>';
 				}
 				$output .= '</table>';
-				return array('output' => $output, 'data' => $data);
+				return array('output' => $output, 'data' => (isset($data) ? $data : false));
 			}
 
 			else {

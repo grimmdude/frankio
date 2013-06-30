@@ -4,7 +4,7 @@ if (!isset($_SESSION['salt'])) {
 	$_SESSION['salt'] = sha1(uniqid());
 }
 
-if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'true') {
+if (isset($_REQUEST['input'])) {
 	if ($_REQUEST['salt'] == $_SESSION['salt']) {
 		require_once 'frankio.php';
 		echo json_encode(FrankIO::execute(($_REQUEST['input'])));
@@ -33,11 +33,12 @@ else
 	</head>
 	<body>
 		<div class="container-fluid">
-			<div style="width:700px;margin:auto;">
+			<div style="max-width:70%;margin:auto;">
 				<h1>Frank IO</h1>
 				<input type="text" name="input" id="input" style="width:98%;" disabled="disabled" placeholder="Type command..." />
 				<input type="hidden" name="salt" value="<?php echo $_SESSION['salt']; ?>" id="salt" />
 				<div id="response"></div>
+				<p id="export_link"><a target="_blank">Export CSV</a></p>
 				<?php /*
 				<h2>Command History</h2>
 				<div id="command_history"></div>
@@ -85,7 +86,7 @@ else
 		</div>
 		<script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
 		<script type="text/javascript" src="js/all.js"></script>
-		<?php if (!strstr($_SERVER['SERVER_NAME'], 'local')): ?>
+		<?php if (strstr($_SERVER['SERVER_NAME'], 'grimmdude')): ?>
 			<!--Analytics-->
 			<script type="text/javascript">
 
