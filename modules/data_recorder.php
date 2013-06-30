@@ -16,10 +16,11 @@ class data_recorder extends FrankIO
 			$sth->execute();
 			$output = '<ul>';
 			while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
+				$data[] = $row;
 				$output .= '<li>'.$row['data_name'].'</li>';
 			}
 			$output .= '</ul>';
-			return $output;
+			return array('output' => $output, 'data' => $data);;
 		}
 		elseif (count($command) == 2) {
 			$sth = self::$db->prepare("SELECT * FROM `data` WHERE `data_name` = ? ORDER BY `data_date` ASC LIMIT 10");
@@ -27,15 +28,18 @@ class data_recorder extends FrankIO
 			$output = '<table class="table">';
 			$output .= '<tr><th>Value</th><th>Date</th></tr>';
 			while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
+				$data[] = $row;
 				$output .= '<tr><td>'.$row['data_value'].'</td><td>'.$row['data_date'].'</td></tr>';
 			}
 			$output .= '</table>';
-			return $output;
+			return array('output' => $output, 'data' => $data);;
 		}
 		elseif (count($command) == 3) {
 			$sth = self::$db->prepare("INSERT INTO `data` (`data_name`, `data_value`, `data_date`) VALUES(?, ?, NOW())");
 			$sth->execute(array($command[1], $command[2]));
-			return $command[1].' recorded as '.$command[2];
+			
+			$output = $command[1].' recorded as '.$command[2];
+			return array('output' => $output);
 		}
 	}
 	

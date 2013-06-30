@@ -16,6 +16,9 @@ class FrankIO {
 	public static function execute($input) {
 		# Initialize
 		if (self::init()) {
+			# Sanitize input
+			$input = trim($input);
+
 			self::log_input($input);
 
 			# Grab command
@@ -29,7 +32,7 @@ class FrankIO {
 				# Check if any modules recognize this command
 				foreach (self::$modules as $module) {
 					if (method_exists($module, $command)) {
-						return array('input' => $input, 'output' => $module::$command($input));
+						return array('input' => $input, 'response' => $module::$command($input));
 					}
 				}
 			}

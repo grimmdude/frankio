@@ -21,13 +21,14 @@ class activity_logger extends FrankIO {
 				if ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
 					$output = '<ul>';
 					while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
+						$data[] = $row;
 						$output .= '<li>'.$row['activity_name'].'</li>';
 					}
 					$output .= '</ul>';
 				}
 
 				if (isset($output)) {
-					return $output;
+					return array('output' => $output, 'data' => $data);
 				}
 				return 'No activities found.';
 			}
@@ -38,12 +39,13 @@ class activity_logger extends FrankIO {
 				$output = '<table class="table">';
 				$output .= '<tr><th>Activity</th><th>Start</th><th>Stop</th></tr>';
 				while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
+					$data[] = $row;
 					$output .= '<tr><td>'.$row['activity_name'].'</td>';
 					$output .= '<td>'.$row['activity_start'].'</td>';
 					$output .= '<td>'.$row['activity_stop'].'</td></tr>';
 				}
 				$output .= '</table>';
-				return $output;
+				return array('output' => $output, 'data' => $data);
 			}
 
 			else {
@@ -55,30 +57,32 @@ class activity_logger extends FrankIO {
 					if ($activity_open === false) {
 						$sth = self::$db->prepare("INSERT INTO `activities` (`activity_name`, `activity_start`) VALUES(?, NOW())");
 						$sth->execute(array($command[1]));
-						return $command[1]. ' started at '.date('g:ia').'.';
+						$output = $command[1]. ' started at '.date('g:ia').'.';
+						return array('output' => $output);
 					}
 					else {
-						return '<p>Activity already open.</p>';
+						return array('output' => '<p>Activity already open.</p>');
 					}
 				}
 				# Stop activity
 				elseif ($command[2] == strtolower('stop')) {
 					if (is_numeric($activity_open)) {
 						$sth = self::$db->prepare("UPDATE `activities` SET `activity_stop` = NOW() WHERE `activity_id` = ?");
-						$sth->execute(array($activity_open));
-						return $command[1]. ' stopped at '.date('g:ia').'.';
+						$sth->execute(array($activity_open));	
+						$output = $command[1]. ' stopped at '.date('g:ia').'.';
+						return array('output' => $output);
 					}
 					else {
-						return '<p>No open '.$command[1].' activity found.</p>';
+						return array('output' => '<p>No open '.$command[1].' activity found.</p>');
 					}
 				}
 				else {
-					return '<p>Third argument should be "start" or "stop".</p>';
+					return array('output' => '<p>Third argument should be "start" or "stop".</p>');
 				}
 			}
 		}
 		else {
-			return 'Help.';
+			return array('output' => 'Help.');
 		}
 	}
 	

@@ -50,7 +50,7 @@ $(function() {
 			var input = jQuery(this).val();
 		
 			// If this is a calculation input use JS
-			var calc_pattern = new RegExp("^([0-9\(\)]+[\-\/\+\*]?)+[0-9\(\)]+$");
+			var calc_pattern = new RegExp("^([0-9\(\)\.]+[\-\/\+\*%]?)+[0-9\(\)\.]+$");
 			var number_pattern = new RegExp("^[0-9\(\)]+[\-\/\+\*]?$")
 			if (number_pattern.test(input)) {
 				$('#response').text('I can do calculations, try 4 + 4');
@@ -69,7 +69,7 @@ $(function() {
 						salt: jQuery('#salt').val()
 						},
 				  		success: function(data) {
-							$('#response').html(data.output);	
+							$('#response').html(data.response.output);	
 							
 							/*
 							// Show options if available
