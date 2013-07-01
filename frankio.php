@@ -39,8 +39,34 @@ class FrankIO {
 		}
 	}
 	
-	public static function export($input) {
-		
+	/**
+	 * Forces download of a CSV file using the `data` key from the return array of execute()
+	 * @param $response_array The return of execute()
+	 */
+	public static function export($response_array) {
+		if (array_key_exists('data', $response_array['response'])) {
+			header("Content-type: text/csv");
+			header("Content-Disposition: attachment; filename=frankio_export.csv");
+			header("Pragma: no-cache");
+			header("Expires: 0");
+			# Here is where we turn the data into a csv
+			$output = fopen("php://output", 'w');
+			for ($i=0; $i < count($response_array['response']['data']); $i++) {
+				if ($i == 0) {
+					# Grab headers
+					foreach ($response_array['response']['data'][$i] as $key => $value) {
+						$headers[] = ucwords(str_replace('_', ' ', $key));
+					}
+					fputcsv($output, $headers);
+				}
+				$headers[] = $key;
+				fputcsv($output, $response_array['response']['data'][$i]);
+			}
+			fclose($output);
+			//return print_r($response_array['response']['data'], true);
+			exit;
+		}
+		return false;
 	}
 	
 	/**

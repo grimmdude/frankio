@@ -1,14 +1,18 @@
 <?php
 session_start();
-if (!isset($_SESSION['salt'])) {
-	$_SESSION['salt'] = sha1(uniqid());
-}
+$_SESSION['salt'] = isset($_SESSION['salt']) ? $_SESSION['salt'] : sha1(uniqid());
 
 if (isset($_REQUEST['input'])) {
 	if ($_REQUEST['salt'] == $_SESSION['salt']) {
 		require_once 'frankio.php';
-		echo json_encode(FrankIO::execute(($_REQUEST['input'])));
-		exit;
+		if (isset($_REQUEST['csv']) && $_REQUEST['csv'] == 'true') {
+			FrankIO::export(FrankIO::execute(($_REQUEST['input'])));
+		}
+		else {
+			header("Content-type: application/json");
+			echo json_encode(FrankIO::execute(($_REQUEST['input'])));
+			exit;
+		}
 	}
 	else {
 		echo 'No bots please.';

@@ -74,7 +74,7 @@ $(function() {
 								$('#export_link')
 									.show()
 									.find('a')
-										.attr('href', '?command=' + data.input + '&');
+										.attr('href', '?csv=true&input=' + data.input + '&salt=' + jQuery('#salt').val());
 							}
 							else {
 								$('#export_link').hide();
